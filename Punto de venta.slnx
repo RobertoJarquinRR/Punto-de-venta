@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Core/Core.csproj" />
+  <Project Path="Data/Data.csproj" />
+  <Project Path="Punto de venta/Punto de venta.csproj" />
+  <Project Path="TestProject1/TestProject1.csproj" Id="dd374460-7648-4e43-9166-9ff1912675c4" />
+</Solution>
