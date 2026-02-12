@@ -7,6 +7,6 @@ namespace Core.CasosDeUso.Common
     public class Resultados
     {
             public bool Exitosa { get; set; }
-            public string mensaje { get; set; }      
+            public required string mensaje { get; set; }      
     }
 }

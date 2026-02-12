@@ -2,6 +2,7 @@
 using Core.Dominio.Entidades;
 using Core.interfaces;
 
+
 namespace Core.CasosDeUso.ProductoUsecase
 {
     public class EliminarUsecase
@@ -17,6 +18,7 @@ namespace Core.CasosDeUso.ProductoUsecase
 
         public async Task<Resultados> EliminarProductoAsync(int productoId)
         {
+            
             
             try
             {

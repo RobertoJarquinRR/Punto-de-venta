@@ -1,6 +1,7 @@
-﻿using Core.Dominio.Entidades;
+﻿using Core.CasosDeUso;
+using Core.CasosDeUso.ProductoUsecase;
+using Core.Dominio.Entidades;
 using Core.interfaces;
-using Core.CasosDeUso;
 using Data;
 using Data.Repositorios.Maestras;
 using Microsoft.EntityFrameworkCore;
@@ -14,40 +15,50 @@ class AdministradorDependencias
     public static ServiceProvider ConfigurarServicios()
     {
         var servicios = new ServiceCollection();
+      
+        var folder = System.IO.Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "Punto_de_venta");
 
-        // 1️⃣ Base de datos
-        servicios.AddDbContext<PuntoVentaContex>(options =>
-            options.UseSqlite("Data Source=PuntoDeVenta.db"));
+        System.IO.Directory.CreateDirectory(folder);
+
+        var dbPath = System.IO.Path.Combine(folder, "PuntoDeVenta.db");
+
+        servicios.AddDbContext<PuntoVentaContex>(opt =>
+            opt.UseSqlite($"Data Source={dbPath}"));
 
 
-        // 2️⃣ Lógica de negocio
-        servicios.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        // 3️⃣ Ventana principal
-        servicios.AddSingleton<MainWindow>();
-
-        // 4️⃣ Registro automático de repositorios (SEGURO)
-        var assembly = typeof(ClientesRepositorio).Assembly;
+        var assembly = typeof(ProductosRepositorio).Assembly;
 
         var repos = assembly.GetTypes()
-            .Where(t =>
-                t.IsClass &&
-                !t.IsAbstract &&
-                t.Name.EndsWith("Repositorio"));
+            .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repositorio"));
 
         foreach (var impl in repos)
         {
             var interfaces = impl.GetInterfaces()
-                .Where(i =>
-                    i.IsGenericType &&
-                    i.GetGenericTypeDefinition() == typeof(IRepositorio<>));
+                .Where(i => i.IsGenericType &&
+                            i.GetGenericTypeDefinition() == typeof(IRepositorio<>));
 
             foreach (var itf in interfaces)
-            {
                 servicios.AddScoped(itf, impl);
-            }
         }
 
+        var assemblys = typeof(AgregarProductoUseCase).Assembly;
+        var usecase = assemblys.GetTypes()
+            .Where(i => i.IsClass &&
+                       !i.IsAbstract && i.Name.EndsWith("UseCase"));
+
+        foreach(var uc in usecase)
+        {
+            servicios.AddScoped(uc);
+        }
+
+        servicios.AddScoped<EliminarUsecase>();
+        
+        servicios.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        servicios.AddScoped<MainWindow>();
         return servicios.BuildServiceProvider();
     }
 }
+    

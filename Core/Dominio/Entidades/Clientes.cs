@@ -1,6 +1,7 @@
 ﻿using Core.interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace Core.Dominio.Entidades
 {
@@ -22,6 +23,7 @@ namespace Core.Dominio.Entidades
 
         public Clientes(string nombre, string direccion, string telefono, string email)
         {
+            var patrongmail = "@^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";
             if (string.IsNullOrWhiteSpace(nombre))
             {
                 throw new ArgumentException("El nombre no puede estar vacío.");
@@ -38,7 +40,8 @@ namespace Core.Dominio.Entidades
             {
                 throw new ArgumentException("El email no puede estar vacío.");
             }
-            else if (!email.Contains("@"))
+
+            else if (!Regex.IsMatch(email, patrongmail));
             {
                 throw new ArgumentException("El email no es válido.");
             }
