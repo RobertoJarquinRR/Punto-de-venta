@@ -18,28 +18,29 @@ namespace Core.CasosDeUso.ProductoUsecase
             _unitOfWork = unitOfWork;
         }
 
-     
-        public Task<Resultados> OptenerBaseDatosAsync()
+
+        public async Task<(Resultados resultado, List<Productos>? productos)> ObtenerProductosAsync()
         {
             try
             {
-                var productos =  _productoRepository.GetAllAsync();
-                return Task.FromResult(new Resultados
+                var productos = await _productoRepository.GetAllAsync();
+
+                return (new Resultados
                 {
                     Exitosa = true,
-                    mensaje = "Productos obtenidos exitosamente",
-                   
-                });
+                    mensaje = "Productos obtenidos exitosamente"
+                }, productos);
             }
             catch (Exception ex)
             {
-                return Task.FromResult(new Resultados
+                return (new Resultados
                 {
                     Exitosa = false,
                     mensaje = ex.Message
-                });
+                }, null);
             }
         }
+
 
         public Task<Resultados> OptenerPorIdAsync(int productoId)
         {

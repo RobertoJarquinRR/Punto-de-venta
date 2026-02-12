@@ -5,7 +5,7 @@ namespace Data.Repositorios.Maestras
 {
     public class ProductosRepositorio : RepositorioBase<Productos>
     {
-       ProductosRepositorio(PuntoVentaContex context) : base(context) { }
+       public ProductosRepositorio(PuntoVentaContex context) : base(context) { }
 
         protected override void MapearCambios(Productos existingEntity, Productos newEntity)
         {
