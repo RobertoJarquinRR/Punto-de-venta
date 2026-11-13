@@ -1,5 +1,4 @@
-﻿// DbTestFactory.cs
-using Data;
+﻿using Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,13 +9,18 @@ public static class DbTestFactory
         var conn = new SqliteConnection("DataSource=:memory:");
         conn.Open();
 
+        var ctx = CreateContext(conn);
+        ctx.Database.Migrate();
+
+        return (ctx, conn);
+    }
+
+    public static PuntoVentaContex CreateContext(SqliteConnection conn)
+    {
         var options = new DbContextOptionsBuilder<PuntoVentaContex>()
             .UseSqlite(conn)
             .Options;
 
-        var ctx = new PuntoVentaContex(options);
-        ctx.Database.EnsureCreated();
-
-        return (ctx, conn);
+        return new PuntoVentaContex(options);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Core.interfaces;
+using Core.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,8 +12,8 @@ namespace Core.Dominio.Entidades
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string nombreUsuario { get; private set; }
-        public string contrasena { get; private set; }
+        public string nombreUsuario { get; private set; } = null!;
+        public string contrasena { get; private set; } = null!;
         public int telefono { get; private set; }
 
 

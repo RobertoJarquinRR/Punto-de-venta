@@ -5,12 +5,12 @@ using Core.interfaces;
 
 namespace Core.CasosDeUso.ProductoUsecase
 {
-    internal class EditarProductoUseCase
+    public class EditarProductoUseCase
     {
         private readonly IRepositorio<Productos> _productoRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        EditarProductoUseCase(IRepositorio<Productos> productoRepository, IUnitOfWork unitOfWork)
+        public EditarProductoUseCase(IRepositorio<Productos> productoRepository, IUnitOfWork unitOfWork)
         {
             _productoRepository = productoRepository;
             _unitOfWork = unitOfWork;

@@ -5,17 +5,15 @@ using System.Text.RegularExpressions;
 
 namespace Core.Dominio.Entidades
 {
-    public class Clientes:IidentidaID
+    public class Clientes : IidentidaID
     {
         [Key]
-        [DatabaseGenerated (DatabaseGeneratedOption.Identity)]
-        public  int Id { get; private set; }
-        public  string Nombre { get; private set; }
-        public string direccion { get; private set; }
-        public string telefono { get; private set; }
-
-        public string email { get; private set; }
-
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; private set; }
+        public string Nombre { get; private set; } = null!;
+        public string direccion { get; private set; } = null!;
+        public string telefono { get; private set; } = null!;
+        public string email { get; private set; } = null!;
 
         private Clientes()
         {
@@ -23,92 +21,40 @@ namespace Core.Dominio.Entidades
 
         public Clientes(string nombre, string direccion, string telefono, string email)
         {
-            var patrongmail = "@^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                throw new ArgumentException("El nombre no puede estar vacío.");
-            }
-            else if (string.IsNullOrWhiteSpace(direccion))
-            {
-                throw new ArgumentException("La dirección no puede estar vacía.");
-            }
-            else if (string.IsNullOrWhiteSpace(telefono))
-            {
-                throw new ArgumentException("El teléfono no puede estar vacío.");
-            }
-            else if (string.IsNullOrWhiteSpace(email))
-            {
-                throw new ArgumentException("El email no puede estar vacío.");
-            }
+            Validar(nombre, direccion, telefono, email);
 
-            else if (!Regex.IsMatch(email, patrongmail));
-            {
-                throw new ArgumentException("El email no es válido.");
-            }
             Nombre = nombre;
             this.direccion = direccion;
             this.telefono = telefono;
             this.email = email;
         }
-
 
         public void UpdateDetails(string nombre, string direccion, string telefono, string email)
         {
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                throw new ArgumentException("El nombre no puede estar vacío.");
-            }
-            else if (string.IsNullOrWhiteSpace(direccion))
-            {
-                throw new ArgumentException("La dirección no puede estar vacía.");
-            }
-            else if (string.IsNullOrWhiteSpace(telefono))
-            {
-                throw new ArgumentException("El teléfono no puede estar vacío.");
-            }
-            else if (string.IsNullOrWhiteSpace(email))
-            {
-                throw new ArgumentException("El email no puede estar vacío.");
-            }
-            else if (!email.Contains("@"))
-            {
-                throw new ArgumentException("El email no es válido.");
-            }
-           
+            Validar(nombre, direccion, telefono, email);
 
-                Nombre = nombre;
-            this.direccion = direccion;
-            this.telefono = telefono;
-            this.email = email;
-        }
-
-        public void Add(string nombre, string direccion, string telefono, string email)
-        {
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                throw new ArgumentException("El nombre no puede estar vacío.");
-            }
-            else if (string.IsNullOrWhiteSpace(direccion))
-            {
-                throw new ArgumentException("La dirección no puede estar vacía.");
-            }
-            else if (string.IsNullOrWhiteSpace(telefono))
-            {
-                throw new ArgumentException("El teléfono no puede estar vacío.");
-            }
-            else if (string.IsNullOrWhiteSpace(email))
-            {
-                throw new ArgumentException("El email no puede estar vacío.");
-            }
-            else if (!email.Contains("@"))
-            {
-                throw new ArgumentException("El email no es válido.");
-            }
             Nombre = nombre;
             this.direccion = direccion;
             this.telefono = telefono;
             this.email = email;
         }
 
+        private static void Validar(string nombre, string direccion, string telefono, string email)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+                throw new ArgumentException("El nombre no puede estar vacío.", nameof(nombre));
+
+            if (string.IsNullOrWhiteSpace(direccion))
+                throw new ArgumentException("La dirección no puede estar vacía.", nameof(direccion));
+
+            if (string.IsNullOrWhiteSpace(telefono))
+                throw new ArgumentException("El teléfono no puede estar vacío.", nameof(telefono));
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentException("El email no puede estar vacío.", nameof(email));
+
+            if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                throw new ArgumentException("El email no es válido.", nameof(email));
+        }
     }
 }

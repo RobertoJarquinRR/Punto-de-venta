@@ -1,4 +1,4 @@
-﻿using Core.interfaces;
+using Core.interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,10 +15,10 @@ namespace Core.Dominio.Entidades
 
         public int facturaId { get; private set; }
         [ForeignKey("facturaId")]
-        public virtual Facturas factura { get; private set; }
+        public virtual Facturas factura { get; private set; } = null!;
         public int productoId { get; private set; }
         [ForeignKey("productoId")]
-        public virtual Productos producto { get; private set; }
+        public virtual Productos producto { get; private set; } = null!;
         
         public int cantidad { get; private set; }
         public decimal precioUnitario { get; private set; }

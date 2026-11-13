@@ -1,4 +1,4 @@
-﻿using Core.interfaces;
+using Core.interfaces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,11 +13,11 @@ namespace Core.Dominio.Entidades
 
         public int propietarioId { get; private set; }
         [ForeignKey("propietarioId")]
-        public virtual Propietarios propietario { get; private set; }
+        public virtual Propietarios propietario { get; private set; } = null!;
 
         public int clienteId { get; private set; }
         [ForeignKey("clienteId")]
-        public Clientes cliente { get; private set; }
+        public Clientes cliente { get; private set; } = null!;
         public DateTime fecha { get; private set; }
         public float total { get; private set; }
 

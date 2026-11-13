@@ -53,8 +53,6 @@ class AdministradorDependencias
             servicios.AddScoped(uc);
         }
 
-        servicios.AddScoped<EliminarUsecase>();
-        
         servicios.AddScoped<IUnitOfWork, UnitOfWork>();
 
         servicios.AddScoped<MainWindow>();
